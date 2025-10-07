@@ -1,0 +1,15 @@
+Neural Network Q-Learning Training Results
+======================================================================
+
+Environment: 5x5 FrozenLake
+Network Architecture: 25 → 64 → 64 → 4
+Learning Rate: 0.001
+Discount Factor: 0.95
+Epsilon Decay: 0.995
+Memory Size: 10000
+Batch Size: 32
+
+Training Statistics:
+Total Episodes: 2000
+Final Average Reward: 1.000
+Final Success Rate: 100.0%

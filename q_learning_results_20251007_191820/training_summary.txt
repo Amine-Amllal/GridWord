@@ -1,0 +1,60 @@
+======================================================================
+Q-LEARNING TRAINING SUMMARY
+======================================================================
+
+ENVIRONMENT CONFIGURATION
+----------------------------------------------------------------------
+Grid Size: 5x5
+Total States: 25
+Start State: (0, 0)
+Goal State: (4, 4)
+Holes: []
+Number of Holes: 0
+Hole Density: 0.0%
+
+HYPERPARAMETERS
+----------------------------------------------------------------------
+Learning Rate (α): 0.5
+Discount Factor (γ): 0.9
+Initial Epsilon (ε): 0.9
+Epsilon Decay: 0.998
+Min Epsilon: 0.02
+Final Epsilon: 0.4041
+
+TRAINING STATISTICS
+----------------------------------------------------------------------
+Total Episodes: 400
+Total Steps: 9556
+Average Steps per Episode: 23.89
+
+PERFORMANCE METRICS
+----------------------------------------------------------------------
+Overall Average Reward: 0.9975
+Overall Success Rate: 99.75%
+
+First 100 Episodes:
+  Average Reward: 0.9900
+  Success Rate: 99.00%
+
+Last 100 Episodes:
+  Average Reward: 1.0000
+  Success Rate: 100.00%
+
+Improvement: +1.00% success rate
+
+Best Episode: 1 (Reward: 1.0000)
+Worst Episode: 0 (Reward: 0.0000)
+
+LEARNED POLICY
+----------------------------------------------------------------------
+  ↓    ↓    ↓    ↓    ↓  
+  ↓    ↓    ↓    ↓    ↓  
+  ↓    ↓    ↓    ↓    ↓  
+  →    ↓    ↓    ↓    ↓  
+  →    →    →    →    G  
+
+Legend: ← LEFT, ↓ DOWN, → RIGHT, ↑ UP, G GOAL, H HOLE
+
+======================================================================
+Report generated: 2025-10-07 19:18:31
+======================================================================
