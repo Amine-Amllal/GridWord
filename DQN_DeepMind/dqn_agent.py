@@ -693,12 +693,13 @@ class DQNAgent:
         
         plt.close()
     
-    def generate_results_folder(self, folder_name=None):
+    def generate_results_folder(self, folder_name=None, include_gif=True):
         """
         Generate comprehensive results folder with plots and statistics.
         
         Args:
             folder_name (str): Name of results folder
+            include_gif (bool): Whether to generate agent navigation GIF
             
         Returns:
             str: Path to results folder
@@ -727,12 +728,24 @@ class DQNAgent:
         print("📝 Creating training summary...")
         self._save_training_summary(results_path)
         
+        # 4. Agent navigation GIF (optional)
+        if include_gif:
+            print("🎬 Creating agent navigation GIF...")
+            try:
+                gif_path = os.path.join(results_path, 'agent_navigation.gif')
+                self._generate_navigation_gif(gif_path, num_episodes=5, fps=2)
+            except Exception as e:
+                print(f"⚠️ Could not generate GIF: {e}")
+                print("💡 Make sure pillow is installed: pip install pillow")
+        
         print("\n✅ Results generation complete!")
         print("=" * 70)
         print(f"📂 Results saved in: {os.path.abspath(results_path)}")
         print(f"   📊 training_progress.png - Training metrics visualization")
         print(f"   🎯 learned_policy.png - Learned policy visualization")
         print(f"   📄 training_summary.txt - Detailed training statistics")
+        if include_gif:
+            print(f"   🎬 agent_navigation.gif - Agent navigation animation")
         print("=" * 70)
         
         return results_path
@@ -832,6 +845,152 @@ class DQNAgent:
             f.write("=" * 80 + "\n")
             f.write(f"Report generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write("=" * 80 + "\n")
+    
+    def _generate_navigation_gif(self, save_path, num_episodes=5, fps=2):
+        """
+        Generate an animated GIF showing the agent navigating the environment.
+        
+        Args:
+            save_path (str): Path to save the GIF
+            num_episodes (int): Number of episodes to show
+            fps (int): Frames per second
+        """
+        # Collect episodes
+        episodes_data = []
+        
+        for ep in range(num_episodes):
+            trajectory = []
+            state, _ = self.env.reset()
+            final_reward = 0
+            
+            for step in range(100):
+                action = self.choose_action(state, training=False)
+                next_state, reward, terminated, truncated, _ = self.env.step(int(action))
+                final_reward = reward
+                
+                trajectory.append({
+                    'state': state,
+                    'action': int(action),
+                    'done': terminated or truncated,
+                    'reward': reward
+                })
+                
+                state = next_state
+                
+                if terminated or truncated:
+                    break
+            
+            episodes_data.append(trajectory)
+        
+        # Create animation
+        fig, ax = plt.subplots(figsize=(10, 10))
+        
+        total_frames = sum(len(ep) for ep in episodes_data) + len(episodes_data) * 3
+        
+        def get_frame_data(frame_num):
+            frame_count = 0
+            for ep_idx, episode in enumerate(episodes_data):
+                ep_frames = len(episode) + 3
+                if frame_num < frame_count + ep_frames:
+                    step_idx = frame_num - frame_count
+                    if step_idx >= len(episode):
+                        step_idx = len(episode) - 1
+                    return ep_idx, step_idx, (frame_num >= frame_count + len(episode))
+                frame_count += ep_frames
+            return len(episodes_data) - 1, len(episodes_data[-1]) - 1, True
+        
+        def animate(frame):
+            ax.clear()
+            
+            ep_idx, step_idx, is_pause = get_frame_data(frame)
+            trajectory = episodes_data[ep_idx]
+            
+            if step_idx >= len(trajectory):
+                step_idx = len(trajectory) - 1
+            
+            step_data = trajectory[step_idx]
+            state = step_data['state']
+            action = step_data['action'] if not is_pause else None
+            
+            # Draw grid
+            for i in range(self.env.nrow + 1):
+                ax.axhline(y=i - 0.5, color='black', linewidth=2.5)
+            for j in range(self.env.ncol + 1):
+                ax.axvline(x=j - 0.5, color='black', linewidth=2.5)
+            
+            # Draw cells
+            for i in range(self.env.nrow):
+                for j in range(self.env.ncol):
+                    cell_type = self.env.desc[i, j]
+                    
+                    if cell_type == 'S':
+                        color, label, text_color = 'lightgreen', 'START', 'darkgreen'
+                    elif cell_type == 'G':
+                        color, label, text_color = 'gold', 'GOAL', 'darkgoldenrod'
+                    elif cell_type == 'H':
+                        color, label, text_color = 'red', 'HOLE', 'darkred'
+                    else:
+                        color, label, text_color = 'lightblue', '', 'black'
+                    
+                    rect = patches.Rectangle((j - 0.5, i - 0.5), 1, 1,
+                                           facecolor=color, alpha=0.6, edgecolor='none')
+                    ax.add_patch(rect)
+                    
+                    if label:
+                        ax.text(j, i + 0.35, label, ha='center', va='center',
+                               fontsize=9, fontweight='bold', color=text_color, alpha=0.8)
+            
+            # Draw agent
+            row, col = state
+            circle = patches.Circle((col, row), 0.35, facecolor='blue',
+                                   edgecolor='darkblue', linewidth=3, zorder=10)
+            ax.add_patch(circle)
+            ax.text(col, row, '🤖', ha='center', va='center',
+                   fontsize=26, zorder=11)
+            
+            # Draw action arrow
+            if action is not None:
+                arrows = {0: -0.6, 1: 0.6, 2: 0.6, 3: -0.6}
+                if action in [0, 2]:  # Left, Right
+                    dx, dy = arrows[action], 0
+                else:  # Up, Down
+                    dx, dy = 0, arrows[action]
+                
+                ax.annotate('', xy=(col + dx * 0.7, row + dy * 0.7),
+                           xytext=(col, row),
+                           arrowprops=dict(arrowstyle='->', lw=4, color='navy'),
+                           zorder=9)
+            
+            # Configure axes
+            ax.set_xlim(-0.5, self.env.ncol - 0.5)
+            ax.set_ylim(-0.5, self.env.nrow - 0.5)
+            ax.set_aspect('equal')
+            ax.invert_yaxis()
+            ax.set_xticks(range(self.env.ncol))
+            ax.set_yticks(range(self.env.nrow))
+            
+            # Title
+            status_text = ""
+            if step_idx == len(trajectory) - 1:
+                if step_data['reward'] > 0:
+                    status_text = "\n✅ Goal Reached!"
+                elif step_data['done']:
+                    status_text = "\n❌ Fell in Hole"
+            
+            ax.set_title(f'DQN Agent - Finding the Way\n'
+                        f'Episode {ep_idx + 1}/{num_episodes} | Step {step_idx + 1}/{len(trajectory)}'
+                        f'{status_text}',
+                        fontsize=14, fontweight='bold', pad=15)
+            
+            return []
+        
+        # Create and save animation
+        anim = animation.FuncAnimation(fig, animate, frames=total_frames,
+                                      interval=1000//fps, blit=True, repeat=True)
+        anim.save(save_path, writer='pillow', fps=fps, dpi=100)
+        plt.close()
+        
+        print(f"   ✅ GIF saved: {os.path.basename(save_path)}")
 
 
 def main():

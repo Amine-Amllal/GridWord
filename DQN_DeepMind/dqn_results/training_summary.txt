@@ -34,31 +34,31 @@ Target Update Frequency: 1000 steps
 TRAINING STATISTICS
 --------------------------------------------------------------------------------
 Total Episodes: 1000
-Total Steps: 35074
-Average Steps per Episode: 35.07
+Total Steps: 35192
+Average Steps per Episode: 35.19
 Replay Memory Size: 10000
 
 PERFORMANCE METRICS
 --------------------------------------------------------------------------------
-Overall Average Reward: 0.9720
-Overall Success Rate: 97.20%
+Overall Average Reward: 0.9470
+Overall Success Rate: 94.70%
 
 First 100 Episodes:
-  Average Reward: 0.8700
-  Success Rate: 87.00%
+  Average Reward: 0.8800
+  Success Rate: 88.00%
 
 Last 100 Episodes:
-  Average Reward: 1.0000
-  Success Rate: 100.00%
+  Average Reward: 0.6600
+  Success Rate: 66.00%
 
-Improvement: +13.00% success rate
+Improvement: -22.00% success rate
 
-Best Episode: 1 (Reward: 1.0000)
-Worst Episode: 0 (Reward: 0.0000)
+Best Episode: 0 (Reward: 1.0000)
+Worst Episode: 5 (Reward: 0.0000)
 
-Average Training Loss: 0.215707
-Final Loss (last 100): 0.207561
+Average Training Loss: 0.411619
+Final Loss (last 100): 0.232618
 
 ================================================================================
-Report generated: 2025-10-27 11:21:56
+Report generated: 2025-10-27 11:38:28
 ================================================================================

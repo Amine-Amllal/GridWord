@@ -2,6 +2,25 @@
 
 This directory contains a complete implementation of the **Deep Q-Network (DQN)** algorithm as introduced by DeepMind in their landmark 2015 Nature paper: ["Human-level control through deep reinforcement learning"](https://www.nature.com/articles/nature14236).
 
+## 📸 Visual Results
+
+See the trained agent in action! The following visualizations are generated automatically after training:
+
+### 🎬 Agent Navigation
+![Agent Navigation](dqn_results/agent_navigation.gif)
+
+*Watch the trained DQN agent successfully navigate the FrozenLake environment!*
+
+### 📊 Training Progress
+![Training Progress](dqn_results/training_progress.png)
+
+*Training metrics showing convergence to near-perfect performance*
+
+### 🎯 Learned Policy
+![Learned Policy](dqn_results/learned_policy.png)
+
+*Optimal policy visualization with action arrows for each state*
+
 ## 🎯 Overview
 
 The DQN agent learns to navigate the FrozenLake environment using deep neural networks to approximate Q-values, combined with two key innovations:
@@ -125,6 +144,8 @@ The `generate_results_folder()` method creates a timestamped folder containing:
 
 - **`learned_policy.png`**: Visualization of the learned policy as action arrows on the grid
 
+- **`agent_navigation.gif`**: Animated visualization showing the trained agent navigating through multiple episodes, demonstrating learned behavior in action
+
 - **`training_summary.txt`**: Detailed text report including:
   - Environment configuration
   - Network architecture
@@ -194,6 +215,25 @@ After training for 1000 episodes on a 5x5 FrozenLake:
 The training results folder (`dqn_results/`) contains:
 - **`training_progress.png`**: Shows reward progression, loss curves, success rate, and epsilon decay
 - **`learned_policy.png`**: Visualizes the optimal policy learned by the agent
+- **`agent_navigation.gif`**: Animated visualization of the trained agent navigating the environment
+
+### Training Progress
+
+![Training Progress](dqn_results/training_progress.png)
+
+*The training progress shows four key metrics: episode rewards with moving average, training loss over time, success rate progression, and epsilon decay curve. The agent demonstrates consistent improvement, achieving 100% success rate in the final episodes.*
+
+### Learned Policy
+
+![Learned Policy](dqn_results/learned_policy.png)
+
+*The learned policy visualization shows the optimal action (arrow direction) the agent takes from each state. The arrows indicate the learned strategy to navigate from START (green) to GOAL (gold) while avoiding HOLES (red).*
+
+### Agent Navigation (Animated)
+
+![Agent Navigation](dqn_results/agent_navigation.gif)
+
+*This animated GIF shows the trained agent navigating the FrozenLake environment across multiple episodes. Watch as the agent successfully finds the optimal path from start to goal, demonstrating the effectiveness of the learned policy.*
 
 This training run demonstrates excellent convergence with near-perfect performance in the final episodes, validating the effectiveness of the implemented improvements.
 
