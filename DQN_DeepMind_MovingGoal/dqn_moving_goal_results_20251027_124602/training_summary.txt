@@ -1,0 +1,76 @@
+================================================================================
+DQN MOVING GOAL TRAINING SUMMARY
+================================================================================
+
+ENVIRONMENT CONFIGURATION
+--------------------------------------------------------------------------------
+Grid Size: 5x5
+Total States: 25
+Start State: (0, 0)
+Goal Mode: Random
+Possible Goal Positions: 24
+Holes: []
+Number of Holes: 0
+
+NETWORK ARCHITECTURE
+--------------------------------------------------------------------------------
+Algorithm: Deep Q-Network (DQN) for Moving Goal
+Input Size: 50 (agent pos + goal pos, both one-hot)
+Hidden Layers: [128, 128]
+Output Size: 4 (Q-values for each action)
+Activation: ReLU (hidden), Linear (output)
+
+HYPERPARAMETERS
+--------------------------------------------------------------------------------
+Learning Rate (α): 0.001
+Discount Factor (γ): 0.99
+Initial Epsilon (ε): 1.0
+Epsilon Decay: 0.997
+Min Epsilon: 0.01
+Final Epsilon: 0.0576
+Batch Size: 32
+Memory Size: 10000
+Target Update Frequency: 1000 steps
+
+TRAINING STATISTICS
+--------------------------------------------------------------------------------
+Total Episodes: 1000
+Total Steps: 37438
+Average Steps per Episode: 37.44
+Replay Memory Size: 10000
+Unique Goals Encountered: 24
+
+PERFORMANCE METRICS
+--------------------------------------------------------------------------------
+Overall Average Reward: 0.9420
+Overall Success Rate: 94.20%
+
+First 100 Episodes:
+  Average Reward: 0.9800
+  Success Rate: 98.00%
+
+Last 100 Episodes:
+  Average Reward: 0.9900
+  Success Rate: 99.00%
+
+Improvement: +1.00% success rate
+
+Goal Coverage:
+  Unique goals encountered: 24
+  Total possible goals: 24
+  Coverage: 100.0%
+
+Average Training Loss: 0.051242
+Final Loss (last 100): 0.002900
+
+================================================================================
+KEY DIFFERENCES FROM FIXED GOAL DQN:
+--------------------------------------------------------------------------------
+• State encoding includes both agent position AND goal position
+• Input size is 2x larger (agent one-hot + goal one-hot)
+• Agent learns general navigation policy, not path to fixed goal
+• Goal changes each episode for diverse training
+• Can generalize to unseen goal positions
+================================================================================
+Report generated: 2025-10-27 12:46:06
+================================================================================

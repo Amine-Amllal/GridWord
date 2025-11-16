@@ -48,26 +48,38 @@ python -c "import numpy, matplotlib, imageio; print('All dependencies installed 
 
 ### Running the Agents
 
-Once the environment is set up, you can run any of the agents:
+Once the environment is set up, you can run any of the agents from their respective directories:
 
 ```bash
 # Q-Learning Agent
-python q_learning_agent.py
+python Q-Learning/q_learning_agent.py
 
 # Dynamic Q-Learning Agent (with moving obstacles)
-python q_learning_agent_dynamic.py
+python Q-Learning/q_learning_agent_dynamic.py
+
+# Q-Learning with Reward Shaping
+python Q-Learning/q_learning_avec_shaping.py
 
 # Deep Q-Learning Agent (Neural Network)
-python neural_network_q_value_agent.py
+python NeuralQ-Learning/neural_network_q_value_agent.py
+
+# DQN DeepMind Implementation
+python DQN_DeepMind/dqn_agent.py
+
+# DQN with Moving Goal
+python DQN_DeepMind_MovingGoal/dqn_agent_moving_goal.py
+
+# PPO Agent (Stable-Baselines3)
+python StableBase3Zoo_PPO/run_simulation.py
 
 # Policy Iteration Agent
-python policy_iteration_agent.py
+python PolicyIteration/policy_iteration_agent.py
 
 # Value Iteration Agent
-python value_iteration_agent.py
+python ValueIteration/value_iteration_agent.py
 
 # Random Agent (baseline)
-python random_agent.py
+python RandomAgent/random_agent.py
 ```
 
 ## 🎮 Environment Features
@@ -119,17 +131,17 @@ The Q-Learning agent implements the classic tabular Q-Learning algorithm, learni
 ### Training Results
 
 **Cumulative Rewards During Training:**
-![Cumulative Rewards](q_learning_results_20251007_191820/cumulative_rewards.png)
+![Cumulative Rewards](q_learning_results/cumulative_rewards.png)
 
 This graph shows how the agent's performance improves over episodes, with cumulative rewards increasing as the agent learns better policies.
 
 **Final Learned Path:**
-![Pathfinding Final Path](q_learning_results_20251007_191820/pathfinding_final_path.gif)
+![Pathfinding Final Path](q_learning_results/pathfinding_final_path.gif)
 
 The agent successfully navigates from the start position to the goal while avoiding obstacles, following the optimal policy learned through Q-Learning.
 
 **Training Animation:**
-![Training Animation](q_learning_results_20251007_191820/training_animation.gif)
+![Training Animation](q_learning_results/training_animation.gif)
 
 This animation visualizes the learning process, showing how the agent explores the environment and gradually improves its path-finding strategy.
 
@@ -158,12 +170,12 @@ The Deep Q-Learning agent uses a neural network to approximate Q-values, enablin
 ### Training Results
 
 **Learned Policy Visualization:**
-![Neural Q-Learning Policy](neural_q_learning_policy.png)
+![Neural Q-Learning Policy](NeuralQ-Learning/neural_q_learning_policy.png)
 
 This heatmap shows the learned policy across the grid, with arrows indicating the optimal action for each state. The color intensity represents the maximum Q-value at each position.
 
 **Training Progress:**
-![Neural Q-Learning Training Progress](neural_q_learning_training_progress.png)
+![Neural Q-Learning Training Progress](NeuralQ-Learning/neural_q_learning_training_progress.png)
 
 The training progress charts display:
 - Episode rewards over time
@@ -179,6 +191,32 @@ The training progress charts display:
 
 ## 📊 Additional Agents
 
+### DQN DeepMind Implementation
+A professional implementation of Deep Q-Network following DeepMind's architecture:
+- Experience replay buffer
+- Target network for stability
+- GIF generation capabilities
+- Comprehensive training metrics
+
+See `DQN_DeepMind/README.md` for detailed documentation.
+
+### DQN with Moving Goal
+An advanced DQN implementation that handles dynamic environments:
+- Randomized goal positions during training
+- Optimized replay memory strategies
+- Goal distribution verification
+- Memory type comparison tools
+
+See `DQN_DeepMind_MovingGoal/README.md` for detailed documentation.
+
+### PPO Agent (Stable-Baselines3)
+Proximal Policy Optimization implementation using the Stable-Baselines3 library:
+- State-of-the-art policy gradient method
+- Visual demonstrations of learned behavior
+- Easy-to-use interface for RL experiments
+
+See `StableBase3Zoo_PPO/README.md` for detailed documentation.
+
 ### Policy Iteration Agent
 Implements dynamic programming to compute the optimal policy by iteratively improving the policy until convergence.
 
@@ -193,15 +231,45 @@ Baseline agent that takes random actions, useful for comparison with learning ag
 ```
 GridWord/
 ├── frozenlake_env.py              # Customizable environment
-├── q_learning_agent.py            # Tabular Q-Learning
-├── q_learning_agent_dynamic.py    # Q-Learning with dynamic obstacles
-├── neural_network_q_value_agent.py # Deep Q-Learning
-├── policy_iteration_agent.py      # Policy Iteration algorithm
-├── value_iteration_agent.py       # Value Iteration algorithm
-├── random_agent.py                # Random baseline agent
 ├── requirements.txt               # Python dependencies
 ├── README.md                      # This file
-└── q_learning_results_*/          # Training results and visualizations
+├── LICENSE                        # License file
+├── RL/                            # Virtual environment
+├── Q-Learning/                    # Q-Learning implementations
+│   ├── q_learning_agent.py        # Tabular Q-Learning
+│   ├── q_learning_agent_dynamic.py # Q-Learning with dynamic obstacles
+│   └── q_learning_avec_shaping.py # Q-Learning with reward shaping
+├── NeuralQ-Learning/              # Neural network Q-Learning
+│   ├── neural_network_q_value_agent.py # Deep Q-Learning implementation
+│   ├── neural_q_learning_policy.png
+│   └── neural_q_learning_training_progress.png
+├── DQN_DeepMind/                  # DeepMind-style DQN implementation
+│   ├── dqn_agent.py               # Main DQN agent
+│   ├── create_gif_from_trained_agent.py
+│   ├── generate_agent_gif.py
+│   ├── test_gif_generation.py
+│   ├── README.md
+│   ├── requirements.txt
+│   └── dqn_results/               # Training results
+├── DQN_DeepMind_MovingGoal/       # DQN with dynamic goal
+│   ├── dqn_agent_moving_goal.py   # DQN for moving goal environments
+│   ├── compare_memory_types.py    # Replay memory comparison
+│   ├── verify_goal_distribution.py
+│   ├── README.md
+│   ├── requirements.txt
+│   └── dqn_moving_goal_results_*/ # Training results
+├── StableBase3Zoo_PPO/            # PPO implementation using Stable-Baselines3
+│   ├── run_simulation.py          # PPO agent runner
+│   ├── README.md
+│   ├── requirements.txt
+│   └── ppo_visual_demo_*/         # Training visualizations
+├── PolicyIteration/               # Policy Iteration algorithm
+│   └── policy_iteration_agent.py
+├── ValueIteration/                # Value Iteration algorithm
+│   └── value_iteration_agent.py
+├── RandomAgent/                   # Random baseline agent
+│   └── random_agent.py
+└── q_learning_results_*/          # Legacy Q-Learning results
 ```
 
 ## 🎯 Results and Outputs
